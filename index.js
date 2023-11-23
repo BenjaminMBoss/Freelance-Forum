@@ -39,7 +39,7 @@ let listedFreelancers = 0;
 
 function render() {
     const html = forumList.map((freelancer) => {
-        return `<h4> Name: ${freelancer.name} Occupation: ${freelancer.occupation} Starting Cost: ${freelancer.price} </h4>`;
+        return `<h4> Name: ${freelancer.name} &nbsp; &nbsp;&nbsp; &nbsp; Occupation: ${freelancer.occupation} &nbsp; &nbsp;&nbsp; &nbsp; Starting Cost: ${freelancer.price} </h4>`;
     })
     h4.innerHTML = html.join("")
 }
@@ -53,9 +53,28 @@ function startingPriceRender () {
         sum += html[prop] * 1;
     }
     let avg = sum / listedFreelancers;
-    let str = `<h3> The average starting price is: $${avg} </h3>`;
-    avgPriceHeader.innerHTML += str;
+    let str = `The average starting price is: $${Math.round(avg)}`;
+    avgPriceHeader.innerHTML = str;
 }
 
+function randomFreelancer () {
+    const nameNum = Math.floor(Math.random() * names.length);
+    const occupationNum = Math.floor(Math.random() * occupations.length);
+    const priceNum = Math.round(Math.random()* 70) + 15;
+
+    const freelancer = {
+        name: names[nameNum],
+        price: priceNum,
+        occupation: occupations[occupationNum]
+    }
+    return freelancer;
+}
 render();
 startingPriceRender();
+
+setInterval(() => {
+    const randFreelancer = randomFreelancer();
+    forumList.push(randFreelancer);
+    render();
+    startingPriceRender();
+},3000)
